@@ -5,6 +5,7 @@ sequenceDiagram
     participant server
 
     browser->>server: POST note: 'Your input content.'
+    Note right of browser: The page Refresh
     
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
