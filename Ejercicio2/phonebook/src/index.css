@@ -1,0 +1,22 @@
+h2 {
+    color: blue;
+    font-style: italic;
+  }
+.aded{
+    color : green;
+    background : lightgray;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+.error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }

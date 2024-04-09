@@ -13,11 +13,36 @@ const Name = ({ name,handleRemove }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="aded">
+      {message}
+    </div>
+  )
+}
+const NotificationError = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter,setNewFilter] = useState('')
+  const [adedMessage, setadedMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -37,15 +62,25 @@ const App = () => {
   const addName = (event) => {
     const nameExists = persons.some(person => person.name === newName)
     if (nameExists) {
-
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)){
-        
         const existingPerson = persons.find(person => person.name === newName)
         const updatedPerson = {...existingPerson, phonenumber : newNumber, }
         personService
         .update(existingPerson.id,updatedPerson)
         .then(returnedPerson =>{
-          setPersons(persons.map(person => person.id !== existingPerson.id ? person: returnedPerson) )
+          setPersons(persons.map(person => person.id !== existingPerson.id ? person: returnedPerson))
+          setadedMessage(`Updated ${newName}`)
+          setTimeout(() => {
+            setadedMessage(null)
+          }, 4000)
+        }).catch(error => {
+          setErrorMessage(
+            `Failed to update ${newName}: ${error.message}`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 4000)
+          setNotes(notes.filter(n => n.id !== id))
         })
       }
       return
@@ -55,7 +90,8 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name : newName,
-      phonenumber: newNumber
+      phonenumber: newNumber,
+      id : String(persons.length + 1 )
     }
     personService
     .create(personObject).then(returnedPerson => {
@@ -63,7 +99,11 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     })
+    setadedMessage(`Aded ${personObject.name}`)
+    setTimeout(() =>{
+      setadedMessage(null)},4000)
   }
+
  const removePerson = (id) => {
     personService.remove(id).then(() => {
       setPersons(persons.filter(person => person.id !== id));
@@ -90,6 +130,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={adedMessage}/>
+      <NotificationError message={errorMessage} />
       <div>
           filter: <input value={newFilter} onChange={handleFilterChange} />
         </div>
