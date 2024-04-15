@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
+
 const FirstCountryContent = ({ name, ccn3, showAllInfo }) => {
   return (
     <div>
