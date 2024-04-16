@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "@powershell Remove-Item -Recurse -Force 'C:\\Users\\Custo\\Desktop\\CursoFullstackGit\\FullStack-Ejercicios\\Ejercicio3\\dist'; Set-Location 'C:\\Users\\Custo\\Desktop\\CursoFullstackGit\\FullStack-Ejercicios\\Ejercicio2\\phonebook'; npm run build; Copy-Item 'C:\\Users\\Custo\\Desktop\\CursoFullstackGit\\FullStack-Ejercicios\\Ejercicio2\\phonebook\\dist' 'C:\\Users\\Custo\\Desktop\\CursoFullstackGit\\FullStack-Ejercicios\\Ejercicio3' -Recurse"
+
+
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "morgan": "^1.10.0"
   },

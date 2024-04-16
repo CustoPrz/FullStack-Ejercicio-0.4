@@ -7,7 +7,7 @@ import personService from './services/phones'
 const Name = ({ name,handleRemove }) => {
   const label = "Delete"
   return (
-    <li>{name.name} {name.phonenumber}
+    <li>{name.name} {name.number}
     <button onClick={handleRemove}>{label}</button>
     </li>
   )
@@ -64,7 +64,7 @@ const App = () => {
     if (nameExists) {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)){
         const existingPerson = persons.find(person => person.name === newName)
-        const updatedPerson = {...existingPerson, phonenumber : newNumber, }
+        const updatedPerson = {...existingPerson, number : newNumber, }
         personService
         .update(existingPerson.id,updatedPerson)
         .then(returnedPerson =>{
@@ -80,7 +80,7 @@ const App = () => {
           setTimeout(() => {
             setErrorMessage(null)
           }, 4000)
-          setNotes(notes.filter(n => n.id !== id))
+          setPersons(persons.filter(n => n.id !== id))
         })
       }
       return
@@ -90,9 +90,10 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name : newName,
-      phonenumber: newNumber,
+      number: newNumber,
       id : String(persons.length + 1 )
     }
+    console.log(personObject)
     personService
     .create(personObject).then(returnedPerson => {
       setPersons(persons.concat(returnedPerson))

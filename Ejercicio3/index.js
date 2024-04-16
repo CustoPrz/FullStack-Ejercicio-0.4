@@ -1,7 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const cors = require('cors')
 
+app.use(cors())
+app.use(express.static('dist'))
 
 app.use(express.json())
 // app.use((request,response,next) => {
@@ -56,7 +59,7 @@ app.post('/api/persons', (request, response) => {
         
         name: body.name,
         number: body.number,
-        id: Math.floor(Math.random() * 1000000),
+        id: body.id,
     }
     phones = phones.concat(person)
     response.json(person)
