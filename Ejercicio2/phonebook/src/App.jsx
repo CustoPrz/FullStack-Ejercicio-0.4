@@ -60,30 +60,29 @@ const App = () => {
 
 
   const addName = (event) => {
-    const nameExists = persons.some(person => person.name === newName)
+    const nameExists = persons.some(person => person.name === newName);
     if (nameExists) {
-      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)){
-        const existingPerson = persons.find(person => person.name === newName)
-        const updatedPerson = {...existingPerson, number : newNumber, }
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)) {
+        const existingPerson = persons.find(person => person.name === newName);
+        const updatedPerson = { ...existingPerson, number: newNumber };
         personService
-        .update(existingPerson.id,updatedPerson)
-        .then(returnedPerson =>{
-          setPersons(persons.map(person => person.id !== existingPerson.id ? person: returnedPerson))
-          setadedMessage(`Updated ${newName}`)
-          setTimeout(() => {
-            setadedMessage(null)
-          }, 4000)
-        }).catch(error => {
-          setErrorMessage(
-            `Failed to update ${newName}: ${error.message}`
-          )
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 4000)
-          setPersons(persons.filter(n => n.id !== id))
-        })
+          .update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson));
+            setadedMessage(`Updated ${newName}`);
+            setTimeout(() => {
+              setadedMessage(null);
+            }, 4000);
+          })
+          .catch(error => {
+            setErrorMessage(error.response.data.error);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 4000);
+            setPersons(persons.filter(n => n.id !== id));
+          });
       }
-      return
+      return;
       
     }
 
@@ -99,10 +98,17 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
+      setadedMessage(`Aded ${personObject.name}`)
+      setTimeout(() =>{
+        setadedMessage(null)},4000)
     })
-    setadedMessage(`Aded ${personObject.name}`)
-    setTimeout(() =>{
-      setadedMessage(null)},4000)
+    .catch(error => {
+      setErrorMessage(error.response.data.error)
+      setTimeout(() =>{
+        setErrorMessage(null)},4000)
+    })
+    
+    
   }
 
  const removePerson = (id) => {
@@ -130,7 +136,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2>Phonebookss</h2>
       <Notification message={adedMessage}/>
       <NotificationError message={errorMessage} />
       <div>
